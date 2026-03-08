@@ -59,52 +59,51 @@ export default function AppShell() {
       `}</style>
 
       {/* ── Sidebar ── */}
-      <aside style={{width:collapsed?52:196,flexShrink:0,background:D.bgCard,borderRight:`1px solid ${D.border}`,display:"flex",flexDirection:"column",transition:"width .2s ease",overflow:"hidden",boxShadow:"1px 0 4px rgba(0,0,0,0.04)"}}>
+      <aside style={{width:collapsed?64:240,flexShrink:0,background:"#fff",display:"flex",flexDirection:"column",transition:"width .2s ease",overflow:"hidden",boxShadow:"2px 0 20px rgba(0,0,0,0.02)",zIndex:20}}>
         {/* Logo */}
-        <div style={{height:54,display:"flex",alignItems:"center",justifyContent:collapsed?"center":"space-between",padding:collapsed?"0 10px":"0 14px 0 16px",borderBottom:`1px solid ${D.border}`,flexShrink:0}}>
-          <div style={{display:"flex",alignItems:"center",gap:9}}>
-            <div style={{width:28,height:28,borderRadius:8,background:D.brand,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-              <MessageCircle size={14} color="#fff"/>
+        <div style={{height:64,display:"flex",alignItems:"center",justifyContent:collapsed?"center":"space-between",padding:collapsed?"0":"0 24px",flexShrink:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <div style={{width:32,height:32,borderRadius:10,background:D.brand,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,boxShadow:D.sBlue}}>
+              <MessageCircle size={18} color="#fff"/>
             </div>
-            {!collapsed&&<div><p style={{fontSize:13,fontWeight:700,color:D.t1,margin:0,letterSpacing:"-0.2px"}}>DUOKE</p><p style={{fontSize:10,color:D.t4,margin:0,letterSpacing:"0.4px"}}>AI 客服平台</p></div>}
+            {!collapsed&&<div><p style={{fontSize:16,fontWeight:800,color:D.t1,margin:0,letterSpacing:"-0.3px",lineHeight:1}}>JoyServe</p></div>}
           </div>
-          {!collapsed&&<button onClick={()=>setCollapsed(true)} style={{background:"none",border:"none",cursor:"pointer",color:D.t4,display:"flex",padding:3}}><ChevronLeft size={14}/></button>}
+          {!collapsed&&<button onClick={()=>setCollapsed(true)} style={{background:"none",border:"none",cursor:"pointer",color:D.t4,display:"flex",padding:4,borderRadius:4,transition:"background .2s",hover:{background:D.bgSub}}}><ChevronLeft size={16}/></button>}
         </div>
 
         {/* Nav items */}
-        <nav style={{flex:1,padding:"10px 7px",overflowY:"auto"}}>
+        <nav style={{flex:1,padding:"12px 16px",overflowY:"auto",display:"flex",flexDirection:"column",gap:4}}>
           {NAV.map(item=>{
             const active = page===item.id;
             return (
-              <button key={item.id} onClick={()=>setPage(item.id)} title={collapsed?item.l:""} style={{width:"100%",display:"flex",alignItems:"center",gap:collapsed?0:8,padding:collapsed?"9px 0":"8px 10px",justifyContent:collapsed?"center":"flex-start",borderRadius:8,marginBottom:1,cursor:"pointer",background:active?D.brandPale:"transparent",border:active?`1px solid ${D.brandEdge}`:"1px solid transparent",color:active?D.brand:D.t3,fontSize:12,fontWeight:active?600:400,transition:"all .13s",fontFamily:"inherit",position:"relative"}}>
-                <item.Icon size={15} style={{flexShrink:0}}/>
+              <button key={item.id} onClick={()=>setPage(item.id)} title={collapsed?item.l:""} style={{width:"100%",display:"flex",alignItems:"center",gap:collapsed?0:12,padding:collapsed?"12px 0":"12px 16px",justifyContent:collapsed?"center":"flex-start",borderRadius:12,cursor:"pointer",background:active?D.brandPale:"transparent",border:"none",color:active?D.brand:D.textSecondary,fontSize:14,fontWeight:active?600:500,transition:"all .2s ease",fontFamily:"inherit",position:"relative"}}>
+                {active && !collapsed && <div style={{position:"absolute",left:0,top:"50%",transform:"translateY(-50%)",width:4,height:20,background:D.brand,borderRadius:"0 4px 4px 0"}}/>}
+                <item.Icon size={20} style={{flexShrink:0, opacity:active?1:0.8}}/>
                 {!collapsed&&<span style={{flex:1,textAlign:"left"}}>{item.l}</span>}
-                {!collapsed&&item.badge!=null&&<span style={{minWidth:18,height:18,borderRadius:9,background:D.red,color:"#fff",fontSize:10,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",padding:"0 4px"}}>{item.badge}</span>}
-                {!collapsed&&item.highlight&&!active&&<span style={{fontSize:10,padding:"1px 5px",borderRadius:3,background:D.brand,color:"#fff",fontWeight:700}}>NEW</span>}
-                {collapsed&&item.badge&&<span style={{position:"absolute",top:6,right:6,width:6,height:6,borderRadius:"50%",background:D.red}}/>}
+                {!collapsed&&item.badge!=null&&<span style={{minWidth:20,height:20,borderRadius:10,background:D.red,color:"#fff",fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",padding:"0 6px",boxShadow:"0 2px 5px rgba(220,38,38,0.3)"}}>{item.badge}</span>}
               </button>
             );
           })}
         </nav>
 
         {/* User */}
-        <div style={{padding:"8px 7px",borderTop:`1px solid ${D.border}`}}>
-          {collapsed&&<button onClick={()=>setCollapsed(false)} style={{width:"100%",display:"flex",justifyContent:"center",padding:"7px 0",background:"none",border:"none",cursor:"pointer",color:D.t4,marginBottom:4}}><ChevronRight size={14}/></button>}
-          <div style={{display:"flex",alignItems:"center",gap:8,padding:"7px 8px",borderRadius:8}}>
-            <div style={{width:28,height:28,borderRadius:"50%",background:D.bgSub,display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,color:D.t3,flexShrink:0}}>管</div>
-            {!collapsed&&<div style={{flex:1,minWidth:0}}><p style={{fontSize:12,fontWeight:500,color:D.t1,margin:0}}>超级管理员</p><p style={{fontSize:11,color:D.t4,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>admin@joyserve.ai</p></div>}
+        <div style={{padding:"16px",marginTop:"auto"}}>
+          {collapsed&&<button onClick={()=>setCollapsed(false)} style={{width:"100%",display:"flex",justifyContent:"center",padding:"8px 0",background:"none",border:"none",cursor:"pointer",color:D.t4,marginBottom:8}}><ChevronRight size={16}/></button>}
+          <div style={{display:"flex",alignItems:"center",gap:12,padding:"12px",borderRadius:16,background:D.bgSub,transition:"all .2s"}}>
+            <div style={{width:36,height:36,borderRadius:"50%",background:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:700,color:D.brand,flexShrink:0,boxShadow:D.s0}}>管</div>
+            {!collapsed&&<div style={{flex:1,minWidth:0}}><p style={{fontSize:13,fontWeight:600,color:D.t1,margin:0}}>超级管理员</p><p style={{fontSize:12,color:D.textTertiary,margin:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>admin@joyserve.ai</p></div>}
           </div>
         </div>
       </aside>
 
       {/* ── Main ── */}
-      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden"}}>
+      <div style={{flex:1,display:"flex",flexDirection:"column",overflow:"hidden",background:D.bgPage}}>
         {/* Topbar */}
-        <header style={{height:54,background:D.bgCard,borderBottom:`1px solid ${D.border}`,display:"flex",alignItems:"center",padding:"0 24px",gap:16,flexShrink:0}}>
+        <header style={{height:64,background:"transparent",display:"flex",alignItems:"center",padding:"0 32px",gap:24,flexShrink:0}}>
           <div style={{flex:1}}>
             <div style={{position:"relative",display:"inline-block"}}>
-              <Search size={12} style={{position:"absolute",left:10,top:"50%",transform:"translateY(-50%)",color:D.t4}}/>
-              <input placeholder="全局搜索 ⌘K" style={{padding:"7px 14px 7px 30px",background:D.bgSub,border:`1px solid ${D.border}`,borderRadius:7,color:D.t2,fontSize:12,outline:"none",width:220,fontFamily:"inherit"}}/>
+              <Search size={16} style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",color:D.t4}}/>
+              <input placeholder="全局搜索..." style={{padding:"10px 16px 10px 36px",background:"#fff",border:"none",borderRadius:12,color:D.t2,fontSize:13,outline:"none",width:280,fontFamily:"inherit",boxShadow:D.s0,transition:"all .2s"}}/>
             </div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:10}}>

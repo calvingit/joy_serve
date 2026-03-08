@@ -8,7 +8,7 @@ export const D = {
   /* Brand — one accent, used sparingly */
   brand   : "#2D6BFE",
   brandB  : "#1A54E0",   // pressed / darker
-  brandPale: "#EEF3FF",  // pale tint for hover/selected states
+  brandPale: "#E6F0FF",  // pale tint for hover/selected states
   brandEdge: "#D6E3FF",  // border when brand state active
   brandGlow: "rgba(45,107,254,0.18)", // chart gradient top
 
@@ -22,21 +22,31 @@ export const D = {
   slate : "#64748B", slatePale : "#F1F5F9", slateEdge : "#CBD5E1",
 
   /* Typography — strict grayscale, no pure black */
-  t1 : "#111827",  // KPI numerals, card titles — darkest
+  t1 : "#1A1F36",  // KPI numerals, card titles — darkest
   t2 : "#374151",  // body, table rows
   t3 : "#6B7280",  // labels, axis, secondary
   t4 : "#9CA3AF",  // placeholder, muted
   t5 : "#D1D5DB",  // dividers, disabled
 
+  /* Alias for new design system text colors */
+  textPrimary   : "#1A1F36",
+  textSecondary : "#6B7280",
+  textTertiary  : "#9CA3AF",
+
   /* Borders */
   border  : "#E5E7EB",
   divider : "#F3F4F6",
+  
+  /* Radius */
+  radiusCard : 20,
+  radiusBtn  : 12,
 
   /* Shadows — diffused, never sharp */
   s0 : "0 1px 2px rgba(0,0,0,0.04)",
-  s1 : "0 1px 4px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04)",
-  s2 : "0 4px 16px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)",
-  s3 : "0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.06)",
+  s1 : "0 4px 20px rgba(0,0,0,0.05)",
+  s2 : "0 8px 30px rgba(0,0,0,0.08)",
+  s3 : "0 12px 40px rgba(0,0,0,0.10)",
+  sHover: "0 8px 25px rgba(0,0,0,0.08)",
   sBlue: "0 4px 14px rgba(45,107,254,0.22)",
 };
 

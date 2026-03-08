@@ -6,15 +6,15 @@ export default function Modal({ open, onClose, title, width=520, children, foote
   if (!open) return null;
   return (
     <div style={{position:"fixed",inset:0,zIndex:900,display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div onClick={onClose} style={{position:"absolute",inset:0,background:"rgba(17,24,39,0.45)",backdropFilter:"blur(2px)"}}/>
-      <div style={{position:"relative",width,maxWidth:"92vw",maxHeight:"90vh",background:D.bgCard,borderRadius:12,boxShadow:D.s3,display:"flex",flexDirection:"column",overflow:"hidden",border:`1px solid ${D.border}`}}>
-        <div style={{padding:"20px 24px 18px",borderBottom:`1px solid ${D.divider}`,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
-          <span style={{fontSize:15,fontWeight:600,color:D.t1,letterSpacing:"-0.15px"}}>{title}</span>
-          <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:D.t4,display:"flex",padding:4,borderRadius:6,transition:"color .15s"}}
-            onMouseEnter={e=>e.currentTarget.style.color=D.t3} onMouseLeave={e=>e.currentTarget.style.color=D.t4}><X size={16}/></button>
+      <div onClick={onClose} style={{position:"absolute",inset:0,background:"rgba(255,255,255,0.6)",backdropFilter:"blur(8px)"}}/>
+      <div style={{position:"relative",width,maxWidth:"92vw",maxHeight:"90vh",background:D.bgCard,borderRadius:D.radiusCard,boxShadow:D.s3,display:"flex",flexDirection:"column",overflow:"hidden",border:"none"}}>
+        <div style={{padding:"24px 24px 16px",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+          <span style={{fontSize:18,fontWeight:700,color:D.textPrimary,letterSpacing:"-0.3px"}}>{title}</span>
+          <button onClick={onClose} style={{background:D.bgSub,border:"none",cursor:"pointer",color:D.textSecondary,display:"flex",padding:6,borderRadius:99,transition:"all .2s",hover:{background:D.border}}}
+            onMouseEnter={e=>e.currentTarget.style.color=D.t2} onMouseLeave={e=>e.currentTarget.style.color=D.textSecondary}><X size={18}/></button>
         </div>
-        <div style={{padding:24,overflowY:"auto",flex:1}}>{children}</div>
-        {footer&&<div style={{padding:"16px 24px",borderTop:`1px solid ${D.divider}`,display:"flex",justifyContent:"flex-end",gap:8,flexShrink:0,background:D.bgSub}}>{footer}</div>}
+        <div style={{padding:"0 24px 24px",overflowY:"auto",flex:1}}>{children}</div>
+        {footer&&<div style={{padding:"16px 24px",borderTop:`1px solid ${D.divider}`,display:"flex",justifyContent:"flex-end",gap:12,flexShrink:0,background:D.bgSub}}>{footer}</div>}
       </div>
     </div>
   );
