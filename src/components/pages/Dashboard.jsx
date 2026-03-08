@@ -1,5 +1,5 @@
 /* 首页总览页面：展示 AI 与人工客服核心指标与提醒。 */
-import { useEffect, useRef, useState } from "react";
+import { useState } from 'react';
 import {
   Activity,
   AlertCircle,
@@ -28,24 +28,17 @@ import {
   Flag,
   FlaskConical,
   Home,
-  Image,
   Inbox,
   Info,
   Key,
   Lock,
   Megaphone,
   MessageCircle,
-  MessageSquare,
   Minus,
   Pause,
-  Paperclip,
-  Play,
-  Plus,
-  RefreshCcw,
   RefreshCw,
   RotateCcw,
   Search,
-  Send,
   Settings,
   Shield,
   ShieldCheck,
@@ -57,7 +50,6 @@ import {
   User,
   UserPlus,
   Workflow,
-  X,
   Zap,
 } from 'lucide-react';
 import {
@@ -74,8 +66,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { D, DATA, LANG_FLAG } from "../../constants/data";
-import { useModal } from "../../hooks/useModal";
+import { D, DATA, LANG_FLAG } from '../../constants/data';
 import {
   Btn,
   Card,
@@ -85,40 +76,19 @@ import {
   Field,
   HealthBar,
   Input,
-  Modal,
   PHeader,
   SLabel,
   Sel,
   TabBar,
   Textarea,
   Toggle,
-} from "../common/components";
+} from '../common/components';
+import DashboardAiAskPanel from './dashboard/DashboardAiAskPanel';
 
 export default function Dashboard({ toast }) {
-  const [aiQuery, setAiQ] = useState('');
-  const [aiAns, setAiAns] = useState(null);
-  const [aiLoad, setAiLoad] = useState(false);
   const [alertsDone, setAlertsDone] = useState({});
-  const [alertTab, setAlertTab] = useState("open");
-  const [chartRange, setChartRange] = useState("today");
-
-  const QUICK = [
-    '今日有什么运营异常？',
-    'AI 覆盖率最低的场景是？',
-    '退款趋势本周如何？',
-    '本月 ROI 情况？',
-  ];
-  const askAI = (q = aiQuery) => {
-    if (!q.trim()) return;
-    setAiLoad(true);
-    setAiAns(null);
-    setTimeout(() => {
-      setAiAns(
-        `针对「${q}」的分析：\n\n📊 本周 AI 独立解决率 87.3%，较上周提升 2.1pp，整体运营稳健。\n\n⚠️ 需关注：「取消订单」场景 AI 解决率仅 52%，低于行业均值 19pp。建议完善对应 Skill 的退款边界配置。\n\n✅ 建议行动：① 更新泰语退款话术 ② 检查 Shopee PH 授权状态 ③ 开启「主动关怀」Skill，可减少约 30% 物流投诉`,
-      );
-      setAiLoad(false);
-    }, 1500);
-  };
+  const [alertTab, setAlertTab] = useState('open');
+  const [chartRange, setChartRange] = useState('today');
 
   const KPI = [
     { l: 'AI 处理量', v: '2,847', delta: '+12.6%', up: true, Icon: MessageCircle },
@@ -165,143 +135,7 @@ export default function Dashboard({ toast }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-      {/* AI Ask */}
-      <Card
-        pad={24}
-        style={{ background: `linear-gradient(160deg,#FFFFFF 50%,${D.brandPale} 150%)` }}>
-        <div style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 20 }}>
-            <p
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                color: D.t1,
-                margin: 0,
-                letterSpacing: '-0.5px',
-              }}>
-              向 AI 询问今日运营情况
-            </p>
-            <p style={{ fontSize: 13, color: D.t3, marginTop: 6 }}>
-              基于实时数据，获取业务分析与行动建议
-            </p>
-          </div>
-          <div
-            style={{
-              border: `1.5px solid ${aiLoad ? D.brand : D.border}`,
-              borderRadius: 9,
-              overflow: 'hidden',
-              transition: 'border-color .2s',
-              background: D.bgCard,
-              boxShadow: aiLoad ? `0 0 0 3px ${D.brandPale}` : D.s0,
-            }}>
-            <textarea
-              value={aiQuery}
-              onChange={(e) => setAiQ(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  askAI();
-                }
-              }}
-              placeholder='输入任何运营问题，例如：今天有哪些最重要的事项需要处理？'
-              rows={2}
-              style={{
-                width: '100%',
-                border: 'none',
-                padding: '13px 14px',
-                fontSize: 13,
-                color: D.t2,
-                resize: 'none',
-                outline: 'none',
-                lineHeight: 1.7,
-                background: 'transparent',
-                boxSizing: 'border-box',
-                fontFamily: 'inherit',
-              }}
-            />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '8px 12px',
-                borderTop: `1px solid ${D.divider}`,
-                background: D.bgSub,
-              }}>
-              <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                {QUICK.map((q, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setAiQ(q);
-                      askAI(q);
-                    }}
-                    style={{
-                      padding: '3px 10px',
-                      borderRadius: 20,
-                      border: `1px solid ${D.border}`,
-                      background: D.bgCard,
-                      color: D.t3,
-                      fontSize: 11,
-                      cursor: 'pointer',
-                      fontFamily: 'inherit',
-                      transition: 'all .13s',
-                    }}>
-                    {q}
-                  </button>
-                ))}
-              </div>
-              <Btn v='primary' sz='sm' onClick={() => askAI()} disabled={!aiQuery.trim()}>
-                {aiLoad ? (
-                  <>
-                    <RefreshCcw size={11} style={{ animation: 'spin .8s linear infinite' }} />
-                    分析中
-                  </>
-                ) : (
-                  <>
-                    <Send size={11} />
-                    发送
-                  </>
-                )}
-              </Btn>
-            </div>
-          </div>
-          {aiAns && (
-            <div
-              style={{
-                marginTop: 12,
-                background: D.brandPale,
-                border: `1px solid ${D.brandEdge}`,
-                borderRadius: 9,
-                padding: '14px 16px',
-              }}>
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 5,
-                  fontSize: 11,
-                  color: D.brand,
-                  fontWeight: 600,
-                  marginBottom: 8,
-                }}>
-                <Bot size={12} />
-                AI 运营洞察
-              </div>
-              <p
-                style={{
-                  fontSize: 13,
-                  color: D.t2,
-                  lineHeight: 1.85,
-                  margin: 0,
-                  whiteSpace: 'pre-line',
-                }}>
-                {aiAns}
-              </p>
-            </div>
-          )}
-        </div>
-      </Card>
+      <DashboardAiAskPanel toast={toast} />
 
       {/* KPI Row 1 */}
       <div>
