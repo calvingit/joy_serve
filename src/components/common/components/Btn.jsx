@@ -2,7 +2,7 @@
 import { D } from "../../../constants/data";
 
 export default function Btn({ v="default", sz="md", onClick, disabled, children, full=false, style:ex={} }) {
-  const S = { sm:{h:32,px:12,fs:12,r:16}, md:{h:40,px:20,fs:14,r:20}, lg:{h:48,px:24,fs:15,r:24} }[sz];
+  const S = { sm:{h:32,px:12,fs:12,r:D.radiusBtn}, md:{h:40,px:20,fs:14,r:D.radiusBtn}, lg:{h:48,px:24,fs:15,r:D.radiusBtn} }[sz];
   const V = {
     primary : { bg:D.brand,     c:"#fff",  brd:"transparent", sh:D.sBlue  },
     default : { bg:D.bgCard,    c:D.t2,    brd:D.border,      sh:D.s0     },

@@ -145,7 +145,7 @@ export default function Dashboard({ toast }) {
             </p>
             <p style={{fontSize:13,color:D.t3,marginTop:6}}>基于实时数据，获取业务分析与行动建议</p>
           </div>
-          <div style={{border:`1.5px solid ${aiLoad?D.brand:D.border}`,borderRadius:9,overflow:"hidden",transition:"border-color .2s",background:D.bgCard,boxShadow:aiLoad?`0 0 0 3px ${D.brandPale}`:D.s0}}>
+          <div style={{border:`1.5px solid ${aiLoad?D.brand:D.border}`,borderRadius:D.radiusInput,overflow:"hidden",transition:"border-color .2s",background:D.bgCard,boxShadow:aiLoad?`0 0 0 3px ${D.brandPale}`:D.s0}}>
             <textarea value={aiQuery} onChange={e=>setAiQ(e.target.value)}
               onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();askAI();}}}
               placeholder="输入任何运营问题，例如：今天有哪些最重要的事项需要处理？" rows={2}
@@ -164,7 +164,7 @@ export default function Dashboard({ toast }) {
             </div>
           </div>
           {aiAns&&(
-            <div style={{marginTop:12,background:D.brandPale,border:`1px solid ${D.brandEdge}`,borderRadius:9,padding:"14px 16px"}}>
+            <div style={{marginTop:12,background:D.brandPale,border:`1px solid ${D.brandEdge}`,borderRadius:D.radiusInput,padding:"14px 16px"}}>
               <div style={{display:"flex",alignItems:"center",gap:5,fontSize:11,color:D.brand,fontWeight:600,marginBottom:8}}>
                 <Bot size={12}/>AI 运营洞察
               </div>
@@ -182,7 +182,7 @@ export default function Dashboard({ toast }) {
             <Card key={i} pad={24}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
                 <span style={{fontSize:13,color:D.textSecondary,fontWeight:500,lineHeight:1.4}}>{k.l}</span>
-                <div style={{width:40,height:40,borderRadius:12,background:i===0?D.brandPale:D.bgSub,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:40,height:40,borderRadius:D.radiusBtn,background:i===0?D.brandPale:D.bgSub,display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <k.Icon size={18} color={i===0?D.brand:D.textTertiary}/>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function Dashboard({ toast }) {
             <Card key={i} pad={24}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
                 <span style={{fontSize:13,color:D.textSecondary,fontWeight:500}}>{k.l}</span>
-                <div style={{width:40,height:40,borderRadius:12,background:D.bgSub,display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <div style={{width:40,height:40,borderRadius:D.radiusBtn,background:D.bgSub,display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <k.Icon size={18} color={D.textTertiary}/>
                 </div>
           </p>
@@ -584,7 +584,7 @@ function FilterBtn({ icon: Icon, label, onClick }) {
         padding: '10px 16px',
         background: '#fff',
         border: `1px solid ${D.border}`,
-        borderRadius: 12,
+        borderRadius: D.radiusBtn,
         fontSize: 13,
         fontWeight: 600,
         color: D.t2,

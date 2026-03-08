@@ -38,8 +38,10 @@ export const D = {
   divider : "#F3F4F6",
   
   /* Radius */
-  radiusCard : 20,
-  radiusBtn  : 12,
+  radiusCard : 24,
+  radiusBtn  : 14,
+  radiusInput: 14,
+  radiusPill : 26,
 
   /* Shadows — diffused, never sharp */
   s0 : "0 1px 2px rgba(0,0,0,0.04)",
