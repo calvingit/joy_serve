@@ -4,13 +4,6 @@ import { D } from "../../../constants/data";
 import { useModal } from "../../../hooks/useModal";
 import { Btn, Card, Modal } from "../../common/components";
 
-const DEFAULT_QUICK = [
-  '今日有什么运营异常？',
-  'AI 覆盖率最低的场景是？',
-  '退款趋势本周如何？',
-  '本月 ROI 情况？',
-];
-
 const DEFAULT_SLASH = [
   { cmd: '/summary', label: '今日摘要', prompt: '请输出今日运营摘要，并按风险级别排序。' },
   { cmd: '/risk', label: '风险扫描', prompt: '请列出当前最高优先级风险及对应处置建议。' },
@@ -20,7 +13,6 @@ const DEFAULT_SLASH = [
 
 export default function DashboardAiAskPanel({
   toast,
-  quickPrompts = DEFAULT_QUICK,
   slashCommands = DEFAULT_SLASH,
   modalTitle = 'AI 运营会话',
 }) {
@@ -210,164 +202,100 @@ export default function DashboardAiAskPanel({
   return (
     <>
       <Card
-        pad={24}
-        style={{ background: `linear-gradient(160deg,#FFFFFF 50%,${D.brandPale} 150%)` }}>
-        <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 18 }}>
-            <p
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                color: D.t1,
-                margin: 0,
-                letterSpacing: '-0.5px',
-              }}>
-              向 AI 询问今日运营情况
-            </p>
-            <p style={{ fontSize: 13, color: D.t3, marginTop: 6 }}>
-              发送后在对话弹框中查看流式分析、附件与历史会话
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1.35fr .85fr', gap: 12 }}>
+        pad={18}
+        style={{ background: `linear-gradient(160deg,#FFFFFF 50%,${D.brandPale} 155%)` }}>
+        <div style={{ maxWidth: 860, margin: '0 auto' }}>
+          <div
+            style={{
+              border: `1.5px solid ${aiLoad ? D.brand : D.border}`,
+              borderRadius: 12,
+              overflow: 'hidden',
+              transition: 'border-color .2s',
+              background: D.bgCard,
+              boxShadow: aiLoad ? `0 0 0 3px ${D.brandPale}` : D.s0,
+            }}>
             <div
               style={{
-                border: `1.5px solid ${aiLoad ? D.brand : D.border}`,
-                borderRadius: 10,
-                overflow: 'hidden',
-                transition: 'border-color .2s',
-                background: D.bgCard,
-                boxShadow: aiLoad ? `0 0 0 3px ${D.brandPale}` : D.s0,
+                padding: '14px 16px',
+                borderBottom: `1px solid ${D.divider}`,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 8,
+                flexWrap: 'wrap',
               }}>
-              <textarea
-                value={aiQuery}
-                onChange={(e) => setAiQ(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    askAI();
-                  }
-                }}
-                placeholder='输入运营问题，按 Enter 发送并在弹框中查看流式分析'
-                rows={3}
-                style={{
-                  width: '100%',
-                  border: 'none',
-                  padding: '13px 14px',
-                  fontSize: 13,
-                  color: D.t2,
-                  resize: 'none',
-                  outline: 'none',
-                  lineHeight: 1.7,
-                  background: 'transparent',
-                  boxSizing: 'border-box',
-                  fontFamily: 'inherit',
-                }}
-              />
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '8px 12px',
-                  borderTop: `1px solid ${D.divider}`,
-                  background: D.bgSub,
-                }}>
-                <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-                  {quickPrompts.map((q, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setAiQ(q);
-                        askAI(q);
-                      }}
-                      style={{
-                        padding: '3px 10px',
-                        borderRadius: 20,
-                        border: `1px solid ${D.border}`,
-                        background: D.bgCard,
-                        color: D.t3,
-                        fontSize: 11,
-                        cursor: 'pointer',
-                        fontFamily: 'inherit',
-                        transition: 'all .13s',
-                      }}>
-                      {q}
-                    </button>
-                  ))}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <MessageSquare size={15} color={D.brand} />
+                <div>
+                  <div style={{ fontSize: 14, color: D.t2, fontWeight: 700 }}>AI 运营提问</div>
+                  <div style={{ fontSize: 11, color: D.t4 }}>
+                    输入问题后直接进入会话窗口查看分析结果
+                  </div>
                 </div>
-                <Btn
-                  v='primary'
-                  sz='sm'
-                  onClick={() => askAI()}
-                  disabled={!aiQuery.trim() || isStreaming}>
-                  {aiLoad ? (
-                    <>
-                      <RefreshCcw size={11} style={{ animation: 'spin .8s linear infinite' }} />
-                      分析中
-                    </>
-                  ) : (
-                    <>
-                      <Send size={11} />
-                      发送
-                    </>
-                  )}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Btn v='sub' sz='sm' onClick={() => chatModal.show()}>
+                  <Bot size={12} />
+                  打开会话
                 </Btn>
               </div>
             </div>
             <div
               style={{
-                border: `1px solid ${D.border}`,
-                borderRadius: 10,
-                background: D.bgCard,
-                padding: 12,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}>
+                display: 'grid',
+                gridTemplateColumns: '1fr auto',
+                alignItems: 'end',
+                gap: 14,
+                padding: '18px 16px 16px',
+              }}
+            >
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                  <MessageSquare size={14} color={D.brand} />
-                  <span style={{ fontSize: 12, color: D.t2, fontWeight: 600 }}>最近会话</span>
+                <textarea
+                  value={aiQuery}
+                  onChange={(e) => setAiQ(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      askAI();
+                    }
+                  }}
+                  placeholder='例如：今天有哪些运营异常需要优先处理？'
+                  rows={1}
+                  style={{
+                    width: '100%',
+                    border: 'none',
+                    padding: 0,
+                    fontSize: 18,
+                    color: D.t2,
+                    resize: 'none',
+                    outline: 'none',
+                    lineHeight: 1.6,
+                    background: 'transparent',
+                    boxSizing: 'border-box',
+                    fontFamily: 'inherit',
+                    minHeight: 46,
+                  }}
+                />
+                <div style={{ marginTop: 8, fontSize: 11, color: D.t4 }}>
+                  Enter 发送，Shift + Enter 换行
                 </div>
-                {sortedSessions.slice(0, 3).map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => {
-                      setActiveSessionId(s.id);
-                      chatModal.show();
-                    }}
-                    style={{
-                      width: '100%',
-                      textAlign: 'left',
-                      border: `1px solid ${D.border}`,
-                      background: D.bgSub,
-                      borderRadius: 8,
-                      padding: '8px 10px',
-                      marginBottom: 6,
-                      cursor: 'pointer',
-                    }}>
-                    <div style={{ fontSize: 12, color: D.t2, fontWeight: 600, marginBottom: 2 }}>
-                      {s.title}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 11,
-                        color: D.t4,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}>
-                      {s.lastPreview}
-                    </div>
-                  </button>
-                ))}
-                {!sortedSessions.length && (
-                  <div style={{ fontSize: 12, color: D.t4 }}>暂无历史会话</div>
-                )}
               </div>
-              <Btn v='sub' sz='sm' onClick={() => chatModal.show()}>
-                <Bot size={12} />
-                打开会话窗口
+              <Btn
+                v='primary'
+                sz='sm'
+                onClick={() => askAI()}
+                disabled={!aiQuery.trim() || isStreaming}>
+                {aiLoad ? (
+                  <>
+                    <RefreshCcw size={11} style={{ animation: 'spin .8s linear infinite' }} />
+                    分析中
+                  </>
+                ) : (
+                  <>
+                    <Send size={11} />
+                    发送
+                  </>
+                )}
               </Btn>
             </div>
           </div>
