@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Bot, Image, MessageSquare, Paperclip, Play, Plus, RefreshCcw, Send, X } from 'lucide-react';
 import { D } from "../../../constants/data";
 import { useModal } from "../../../hooks/useModal";
-import { Btn, Card, Modal } from "../../common/components";
+import { Btn, Modal } from '../../common/components';
 
 const DEFAULT_SLASH = [
   { cmd: '/summary', label: '今日摘要', prompt: '请输出今日运营摘要，并按风险级别排序。' },
@@ -201,88 +201,87 @@ export default function DashboardAiAskPanel({
 
   return (
     <>
-      <Card
-        pad={18}
-        style={{ background: `linear-gradient(160deg,#FFFFFF 50%,${D.brandPale} 155%)` }}>
-        <div style={{ maxWidth: 860, margin: '0 auto' }}>
+      <div style={{ width: 'calc(100% - 400px)', margin: '0 200px' }}>
+        <div
+          style={{
+            border: `1.5px solid ${aiLoad ? D.brand : D.border}`,
+            borderRadius: 16,
+            overflow: 'hidden',
+            transition: 'border-color .2s',
+            background: D.bgCard,
+            boxShadow: aiLoad ? `0 0 0 3px ${D.brandPale}` : D.s0,
+          }}>
           <div
             style={{
-              border: `1.5px solid ${aiLoad ? D.brand : D.border}`,
-              borderRadius: 12,
-              overflow: 'hidden',
-              transition: 'border-color .2s',
-              background: D.bgCard,
-              boxShadow: aiLoad ? `0 0 0 3px ${D.brandPale}` : D.s0,
+              padding: '18px 28px',
+              borderBottom: `1px solid ${D.divider}`,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 12,
+              flexWrap: 'wrap',
             }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <MessageSquare size={15} color={D.brand} />
+              <div>
+                <div style={{ fontSize: 16, color: D.t2, fontWeight: 700 }}>AI 运营提问</div>
+                <div style={{ fontSize: 12, color: D.t4, marginTop: 2 }}>
+                  输入问题后直接进入会话窗口查看分析结果
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Btn v='sub' sz='md' onClick={() => chatModal.show()}>
+                <Bot size={12} />
+                打开会话
+              </Btn>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 18,
+              padding: '28px 28px 22px',
+            }}>
+            <textarea
+              value={aiQuery}
+              onChange={(e) => setAiQ(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  askAI();
+                }
+              }}
+              placeholder='例如：今天有哪些运营异常需要优先处理？'
+              rows={1}
+              style={{
+                width: '100%',
+                border: 'none',
+                padding: 0,
+                fontSize: 22,
+                color: D.t2,
+                resize: 'none',
+                outline: 'none',
+                lineHeight: 1.55,
+                background: 'transparent',
+                boxSizing: 'border-box',
+                fontFamily: 'inherit',
+                minHeight: 72,
+              }}
+            />
             <div
               style={{
-                padding: '14px 16px',
-                borderBottom: `1px solid ${D.divider}`,
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                gap: 8,
+                gap: 20,
                 flexWrap: 'wrap',
               }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <MessageSquare size={15} color={D.brand} />
-                <div>
-                  <div style={{ fontSize: 14, color: D.t2, fontWeight: 700 }}>AI 运营提问</div>
-                  <div style={{ fontSize: 11, color: D.t4 }}>
-                    输入问题后直接进入会话窗口查看分析结果
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Btn v='sub' sz='sm' onClick={() => chatModal.show()}>
-                  <Bot size={12} />
-                  打开会话
-                </Btn>
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr auto',
-                alignItems: 'end',
-                gap: 14,
-                padding: '18px 16px 16px',
-              }}
-            >
-              <div>
-                <textarea
-                  value={aiQuery}
-                  onChange={(e) => setAiQ(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      askAI();
-                    }
-                  }}
-                  placeholder='例如：今天有哪些运营异常需要优先处理？'
-                  rows={1}
-                  style={{
-                    width: '100%',
-                    border: 'none',
-                    padding: 0,
-                    fontSize: 18,
-                    color: D.t2,
-                    resize: 'none',
-                    outline: 'none',
-                    lineHeight: 1.6,
-                    background: 'transparent',
-                    boxSizing: 'border-box',
-                    fontFamily: 'inherit',
-                    minHeight: 46,
-                  }}
-                />
-                <div style={{ marginTop: 8, fontSize: 11, color: D.t4 }}>
-                  Enter 发送，Shift + Enter 换行
-                </div>
-              </div>
+              <div style={{ fontSize: 12, color: D.t4 }}>Enter 发送，Shift + Enter 换行</div>
               <Btn
                 v='primary'
-                sz='sm'
+                sz='lg'
                 onClick={() => askAI()}
                 disabled={!aiQuery.trim() || isStreaming}>
                 {aiLoad ? (
@@ -300,7 +299,7 @@ export default function DashboardAiAskPanel({
             </div>
           </div>
         </div>
-      </Card>
+      </div>
       <Modal
         open={chatModal.open}
         onClose={() => {
