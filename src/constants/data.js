@@ -1,55 +1,63 @@
 export const D = {
   /* Surface layers */
-  bgPage  : "#F4F5F7",   // page background — cold gray
-  bgCard  : "#FFFFFF",   // card surface — pure white
-  bgSub   : "#F8F9FB",   // recessed / inner — slightly off-white
-  bgInput : "#F4F5F7",   // input background
+  bgPage  : "#F5F6FA",
+  bgCard  : "#FFFFFF",
+  bgSub   : "#F9FAFD",
+  bgInput : "#FDFDFF",
+  bgPanel : "#F1F4FB",
+  overlay : "rgba(15, 23, 42, 0.08)",
 
   /* Brand — one accent, used sparingly */
-  brand   : "#2D6BFE",
-  brandB  : "#1A54E0",   // pressed / darker
-  brandPale: "#E6F0FF",  // pale tint for hover/selected states
-  brandEdge: "#D6E3FF",  // border when brand state active
-  brandGlow: "rgba(45,107,254,0.18)", // chart gradient top
+  brand   : "#4880FF",
+  brandB  : "#396CE3",
+  brandPale: "#EEF4FF",
+  brandEdge: "#D9E6FF",
+  brandGlow: "rgba(72,128,255,0.22)",
 
   /* Same-hue desaturated — for chart secondary series */
-  brandDim : "#A6C1FF",
+  brandDim : "#B7CBFF",
+  brandSoft: "#7EA6FF",
 
   /* Semantic — only used for status badges, never decorative */
-  green : "#0DB37A", greenPale : "#E6F8F2", greenEdge : "#B3E8D7",
-  amber : "#D97706", amberPale : "#FFF8E1", amberEdge : "#FDE68A",
-  red   : "#DC2626", redPale   : "#FEF2F2", redEdge   : "#FECACA",
-  slate : "#64748B", slatePale : "#F1F5F9", slateEdge : "#CBD5E1",
+  green : "#28C76F", greenPale : "#EAFBF1", greenEdge : "#CDEFD9",
+  amber : "#FF9F43", amberPale : "#FFF3E7", amberEdge : "#FFD9B5",
+  red   : "#EA5455", redPale   : "#FFF0F1", redEdge   : "#F7CBCC",
+  slate : "#98A2B3", slatePale : "#F5F7FB", slateEdge : "#E3E8F2",
 
   /* Typography — strict grayscale, no pure black */
-  t1 : "#1A1F36",  // KPI numerals, card titles — darkest
-  t2 : "#374151",  // body, table rows
-  t3 : "#6B7280",  // labels, axis, secondary
-  t4 : "#9CA3AF",  // placeholder, muted
-  t5 : "#D1D5DB",  // dividers, disabled
+  t1 : "#1F2937",
+  t2 : "#475467",
+  t3 : "#667085",
+  t4 : "#98A2B3",
+  t5 : "#D0D5DD",
 
   /* Alias for new design system text colors */
-  textPrimary   : "#1A1F36",
-  textSecondary : "#6B7280",
-  textTertiary  : "#9CA3AF",
+  textPrimary   : "#1F2937",
+  textSecondary : "#667085",
+  textTertiary  : "#98A2B3",
 
   /* Borders */
-  border  : "#E5E7EB",
-  divider : "#F3F4F6",
+  border  : "#E9EDF7",
+  divider : "#F2F4F8",
   
   /* Radius */
-  radiusCard : 24,
+  radiusCard : 20,
   radiusBtn  : 14,
   radiusInput: 14,
-  radiusPill : 26,
+  radiusPill : 999,
 
   /* Shadows — diffused, never sharp */
-  s0 : "0 1px 2px rgba(0,0,0,0.04)",
-  s1 : "0 4px 20px rgba(0,0,0,0.05)",
-  s2 : "0 8px 30px rgba(0,0,0,0.08)",
-  s3 : "0 12px 40px rgba(0,0,0,0.10)",
-  sHover: "0 8px 25px rgba(0,0,0,0.08)",
-  sBlue: "0 4px 14px rgba(45,107,254,0.22)",
+  s0 : "0 1px 2px rgba(16, 24, 40, 0.04)",
+  s1 : "0 10px 30px rgba(17, 24, 39, 0.04)",
+  s2 : "0 18px 40px rgba(17, 24, 39, 0.08)",
+  s3 : "0 28px 50px rgba(17, 24, 39, 0.12)",
+  sHover: "0 14px 36px rgba(17, 24, 39, 0.08)",
+  sBlue: "0 10px 24px rgba(72, 128, 255, 0.26)",
+
+  /* Typography */
+  fontDisplay: "\"Plus Jakarta Sans\", \"DM Sans\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
+  fontBody: "\"DM Sans\", \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", sans-serif",
+  fontMono: "\"SFMono-Regular\", Consolas, \"Liberation Mono\", Menlo, monospace",
 };
 
 /* ─── Mock Data ─────────────────────────────────────────────────────────────── */

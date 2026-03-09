@@ -117,27 +117,27 @@ export default function Console({ toast }) {
   };
 
   return (
-    <div style={{display:"flex",height:"calc(100vh - 110px)",background:D.bgCard,borderRadius:10,border:`1px solid ${D.border}`,boxShadow:D.s1,overflow:"hidden"}}>
+    <div style={{display:"flex",height:"calc(100vh - 116px)",background:D.bgCard,borderRadius:24,border:`1px solid ${D.border}`,boxShadow:D.s1,overflow:"hidden"}}>
 
       {/* Session list */}
-      <div style={{width:260,borderRight:`1px solid ${D.border}`,display:"flex",flexDirection:"column",flexShrink:0}}>
-        <div style={{padding:"12px 12px 10px",borderBottom:`1px solid ${D.divider}`}}>
+      <div style={{width:280,borderRight:`1px solid ${D.border}`,display:"flex",flexDirection:"column",flexShrink:0,background:D.bgCard}}>
+        <div style={{padding:"16px 16px 12px",borderBottom:`1px solid ${D.divider}`}}>
           <div style={{position:"relative",marginBottom:8}}>
-            <Search size={12} style={{position:"absolute",left:9,top:"50%",transform:"translateY(-50%)",color:D.t4}}/>
-            <input placeholder="搜索会话…" style={{width:"100%",padding:"7px 9px 7px 28px",background:D.bgSub,border:`1px solid ${D.border}`,borderRadius:7,color:D.t2,fontSize:12,outline:"none",boxSizing:"border-box",fontFamily:"inherit"}}/>
+            <Search size={13} style={{position:"absolute",left:12,top:"50%",transform:"translateY(-50%)",color:D.t4}}/>
+            <input name="console-search-sessions" placeholder="搜索会话…" style={{width:"100%",padding:"10px 12px 10px 34px",background:D.bgInput,border:`1px solid ${D.border}`,borderRadius:14,color:D.t2,fontSize:12,outline:"none",boxSizing:"border-box",fontFamily:D.fontBody,boxShadow:D.s0}}/>
           </div>
-          <div style={{display:"flex",gap:3}}>
+          <div style={{display:"flex",gap:6,padding:4,background:D.bgSub,borderRadius:14,border:`1px solid ${D.border}`}}>
             {[{k:"all",l:"全部"},{k:"ai",l:"AI"},{k:"human",l:"人工"},{k:"pending",l:"待处理"}].map(f=>(
-              <button key={f.k} onClick={()=>setFilter(f.k)} style={{flex:1,padding:"5px 2px",borderRadius:5,fontSize:11,cursor:"pointer",background:filter===f.k?D.brand:"transparent",color:filter===f.k?"#fff":D.t4,border:`1px solid ${filter===f.k?D.brand:D.border}`,fontWeight:filter===f.k?600:400,transition:"all .13s",fontFamily:"inherit"}}>{f.l}</button>
+              <button key={f.k} onClick={()=>setFilter(f.k)} style={{flex:1,padding:"8px 2px",borderRadius:10,fontSize:11,cursor:"pointer",background:filter===f.k?D.bgCard:"transparent",color:filter===f.k?D.brand:D.t4,border:`1px solid ${filter===f.k?D.brandEdge:"transparent"}`,fontWeight:filter===f.k?700:500,transition:"all .13s",fontFamily:D.fontDisplay,boxShadow:filter===f.k?D.s0:"none"}}>{f.l}</button>
             ))}
           </div>
         </div>
         <div style={{flex:1,overflowY:"auto"}}>
           {filtered.map(s=>(
-            <div key={s.id} onClick={()=>setActiveS(s)} style={{padding:"10px 12px",cursor:"pointer",borderBottom:`1px solid ${D.divider}`,background:activeS?.id===s.id?D.brandPale:"transparent",borderLeft:`2.5px solid ${activeS?.id===s.id?D.brand:"transparent"}`,transition:"all .13s"}}>
+            <div key={s.id} onClick={()=>setActiveS(s)} style={{padding:"14px 16px",cursor:"pointer",borderBottom:`1px solid ${D.divider}`,background:activeS?.id===s.id?D.brandPale:"transparent",transition:"all .13s"}}>
               <div style={{display:"flex",gap:8}}>
                 <div style={{position:"relative",flexShrink:0}}>
-                  <div style={{width:34,height:34,borderRadius:"50%",background:D.bgSub,color:D.t3,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:600}}>{s.avatar}</div>
+                  <div style={{width:38,height:38,borderRadius:"50%",background:D.bgSub,color:D.t3,display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:700,border:`1px solid ${D.border}`,fontFamily:D.fontDisplay}}>{s.avatar}</div>
                   {s.urgent&&<span style={{position:"absolute",top:-1,right:-1,width:9,height:9,borderRadius:"50%",background:D.red,border:`2px solid ${D.bgCard}`}}/>}
                 </div>
                 <div style={{flex:1,minWidth:0}}>
@@ -156,13 +156,13 @@ export default function Console({ toast }) {
       </div>
 
       {/* Chat area */}
-      <div style={{flex:1,display:"flex",flexDirection:"column",background:D.bgSub,minWidth:0}}>
+      <div style={{flex:1,display:"flex",flexDirection:"column",background:D.bgPanel,minWidth:0}}>
         {/* Chat header */}
-        <div style={{padding:"0 18px",height:52,borderBottom:`1px solid ${D.border}`,display:"flex",justifyContent:"space-between",alignItems:"center",background:D.bgCard,flexShrink:0}}>
+        <div style={{padding:"0 20px",height:68,borderBottom:`1px solid ${D.border}`,display:"flex",justifyContent:"space-between",alignItems:"center",background:D.bgCard,flexShrink:0}}>
           <div style={{display:"flex",alignItems:"center",gap:10}}>
-            <div style={{width:32,height:32,borderRadius:"50%",background:D.bgSub,color:D.t3,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:600,fontSize:12}}>{activeS?.avatar}</div>
+            <div style={{width:38,height:38,borderRadius:"50%",background:D.bgSub,color:D.t3,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:700,fontSize:12,border:`1px solid ${D.border}`,fontFamily:D.fontDisplay}}>{activeS?.avatar}</div>
             <div>
-              <p style={{fontSize:13,fontWeight:600,color:D.t1,margin:0}}>{activeS?.buyer}</p>
+              <p style={{fontSize:14,fontWeight:700,color:D.t1,margin:0,fontFamily:D.fontDisplay}}>{activeS?.buyer}</p>
               <p style={{fontSize:11,color:D.t4,margin:0}}>{activeS?.flag} · {activeS?.platform} · {activeS?.order}</p>
             </div>
           </div>
@@ -180,7 +180,7 @@ export default function Console({ toast }) {
         </div>
 
         {/* Messages */}
-        <div style={{flex:1,overflowY:"auto",padding:"16px 20px",display:"flex",flexDirection:"column",gap:12}}>
+        <div style={{flex:1,overflowY:"auto",padding:"24px",display:"flex",flexDirection:"column",gap:14}}>
           {msgs.map(m=>(
             <div key={m.id}>
               {m.role==="tool"&&(
@@ -202,7 +202,7 @@ export default function Console({ toast }) {
                   <div style={{maxWidth:"72%"}}>
                     {m.role==="ai"&&<p style={{fontSize:10,color:D.t4,margin:"0 0 3px",display:"flex",alignItems:"center",gap:3}}><Zap size={9} color={D.brand}/>AI Agent · {m.time}</p>}
                     {m.role==="human"&&<p style={{fontSize:10,color:D.t4,margin:"0 0 3px"}}>人工客服 · {m.time}</p>}
-                    <div style={{padding:"9px 13px",borderRadius:m.role==="buyer"?"11px 11px 3px 11px":"3px 11px 11px 11px",background:m.role==="buyer"?D.brand:D.bgCard,border:m.role==="buyer"?"none":`1px solid ${D.border}`,color:m.role==="buyer"?"#fff":D.t2,fontSize:12,lineHeight:1.7,whiteSpace:"pre-line",boxShadow:m.role==="ai"?D.s0:"none"}}>{m.text}</div>
+                    <div style={{padding:"12px 15px",borderRadius:m.role==="buyer"?"18px 18px 6px 18px":"6px 18px 18px 18px",background:m.role==="buyer"?D.brand:D.bgCard,border:m.role==="buyer"?"none":`1px solid ${D.border}`,color:m.role==="buyer"?"#fff":D.t2,fontSize:12,lineHeight:1.75,whiteSpace:"pre-line",boxShadow:m.role==="ai"?D.s0:"none"}}>{m.text}</div>
                     {m.role==="buyer"&&<p style={{fontSize:10,color:D.t4,margin:"3px 0 0",textAlign:"right"}}>{m.time}</p>}
                   </div>
                 </div>
@@ -213,10 +213,10 @@ export default function Console({ toast }) {
         </div>
 
         {/* Input */}
-        <div style={{padding:"10px 16px",borderTop:`1px solid ${D.border}`,background:D.bgCard,flexShrink:0}}>
-          <div style={{border:`1px solid ${D.border}`,borderRadius:8,overflow:"hidden"}}>
-            <textarea value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}}} placeholder={takeover?"以人工身份回复…":"输入消息…"} rows={3} style={{width:"100%",border:"none",padding:"10px 13px",color:D.t2,fontSize:12,resize:"none",outline:"none",lineHeight:1.6,background:"transparent",boxSizing:"border-box",fontFamily:"inherit"}}/>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"7px 11px",borderTop:`1px solid ${D.divider}`,background:D.bgSub}}>
+        <div style={{padding:"16px 18px",borderTop:`1px solid ${D.border}`,background:D.bgCard,flexShrink:0}}>
+          <div style={{border:`1px solid ${D.border}`,borderRadius:18,overflow:"hidden",boxShadow:D.s0,background:D.bgInput}}>
+            <textarea name="console-reply-input" value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}}} placeholder={takeover?"以人工身份回复…":"输入消息…"} rows={3} style={{width:"100%",border:"none",padding:"14px 16px",color:D.t2,fontSize:13,resize:"none",outline:"none",lineHeight:1.7,background:"transparent",boxSizing:"border-box",fontFamily:D.fontBody}}/>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"10px 12px",borderTop:`1px solid ${D.divider}`,background:D.bgCard}}>
               <div style={{display:"flex",gap:8,alignItems:"center"}}>
                 {[Paperclip,Image,Smile].map((Icon,i)=><button key={i} style={{background:"none",border:"none",cursor:"pointer",color:D.t4,display:"flex",padding:2}}><Icon size={14}/></button>)}
                 <span style={{width:1,height:13,background:D.border,display:"inline-block"}}/>

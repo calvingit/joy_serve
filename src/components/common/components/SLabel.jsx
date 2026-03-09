@@ -3,10 +3,10 @@ import { D } from "../../../constants/data";
 
 export default function SLabel({ children, action }) {
   return (
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-      <div style={{display:"flex",alignItems:"center",gap:9}}>
-        <span style={{display:"inline-block",width:3,height:14,borderRadius:2,background:D.brand}}/>
-        <span style={{fontSize:13,fontWeight:600,color:D.t1,letterSpacing:"-0.1px"}}>{children}</span>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,gap:12}}>
+      <div style={{display:"flex",alignItems:"center",gap:10}}>
+        <span style={{display:"inline-block",width:8,height:8,borderRadius:"50%",background:D.brand}}/>
+        <span style={{fontSize:14,fontWeight:700,color:D.t1,letterSpacing:"-0.02em",fontFamily:D.fontDisplay}}>{children}</span>
       </div>
       {action}
     </div>

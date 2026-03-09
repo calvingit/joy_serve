@@ -27,95 +27,108 @@ import {
 } from "../pages/JoyServePages";
 
 export default function AppShell() {
-  const [page, setPage]       = useState("dashboard");
+  const [page, setPage] = useState("dashboard");
   const [collapsed, setCollapsed] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const toast = useToast();
 
   const NAV = [
-    { id:"dashboard", Icon:Home,           l:"首页",       badge:null  },
-    { id:"console",   Icon:MessageSquare,  l:"客服工作台", badge:9     },
-    { id:"agents",    Icon:Bot,            l:"AI 客服",    badge:null, highlight:true },
-    { id:"knowledge", Icon:BookOpen,       l:"知识库",     badge:null  },
-    { id:"marketing", Icon:Megaphone,      l:"智能营销",   badge:null  },
-    { id:"analytics", Icon:BarChart3,      l:"数据洞察",   badge:null  },
-    { id:"system",    Icon:Settings,       l:"系统管理",   badge:null  },
+    { id: "dashboard", Icon: Home, l: "首页" },
+    { id: "console", Icon: MessageSquare, l: "客服工作台", badge: 9 },
+    { id: "agents", Icon: Bot, l: "AI 客服" },
+    { id: "knowledge", Icon: BookOpen, l: "知识库" },
+    { id: "marketing", Icon: Megaphone, l: "智能营销" },
+    { id: "analytics", Icon: BarChart3, l: "数据洞察" },
+    { id: "system", Icon: Settings, l: "系统管理" },
   ];
-  const PAGES = { dashboard:Dashboard, console:Console, agents:AIAgents, knowledge:Knowledge, analytics:Analytics, system:System, marketing:Marketing };
+  const PAGES = {
+    dashboard: Dashboard,
+    console: Console,
+    agents: AIAgents,
+    knowledge: Knowledge,
+    analytics: Analytics,
+    system: System,
+    marketing: Marketing,
+  };
   const Active = PAGES[page] || Dashboard;
 
   return (
     <div
       style={{
-        display: 'flex',
-        height: '100vh',
+        display: "flex",
+        height: "100vh",
         background: D.bgPage,
-        fontFamily: "-apple-system,'PingFang SC','Microsoft YaHei',sans-serif",
         color: D.t2,
         fontSize: 13,
-      }}>
+        fontFamily: D.fontBody,
+      }}
+    >
       <style>{`
-        *{box-sizing:border-box}
-        @keyframes tsIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}
-        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-        ::-webkit-scrollbar{width:4px;height:4px}
-        ::-webkit-scrollbar-track{background:transparent}
-        ::-webkit-scrollbar-thumb{background:${D.border};border-radius:2px}
-        button:focus{outline:none}
-        input::placeholder,textarea::placeholder{color:${D.t4}}
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+        * { box-sizing: border-box; }
+        @keyframes tsIn { from { opacity: 0; transform: translate3d(0, -8px, 0); } to { opacity: 1; transform: translate3d(0, 0, 0); } }
+        @keyframes pulseDot { 0% { opacity: .65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } 100% { opacity: .65; transform: scale(1); } }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D8DEEB; border-radius: 999px; }
+        button, input, textarea, select { font: inherit; }
+        input::placeholder, textarea::placeholder { color: ${D.t4}; }
       `}</style>
 
-      {/* ── Sidebar ── */}
       <aside
         style={{
-          width: collapsed ? 88 : 280,
+          width: collapsed ? 92 : 264,
           flexShrink: 0,
-          background: '#fff',
-          display: 'flex',
-          flexDirection: 'column',
-          transition: 'width .2s ease',
-          overflow: 'hidden',
-          boxShadow: '2px 0 20px rgba(0,0,0,0.02)',
-          zIndex: 20,
-        }}>
-        {/* Logo */}
+          display: "flex",
+          flexDirection: "column",
+          padding: "20px 14px 18px",
+          transition: "width .2s ease",
+          background: D.bgCard,
+          borderRight: `1px solid ${D.border}`,
+        }}
+      >
         <div
           style={{
-            height: 88,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: collapsed ? 'center' : 'space-between',
-            padding: collapsed ? '0' : '0 24px',
-            flexShrink: 0,
-          }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            display: "flex",
+            alignItems: "center",
+            justifyContent: collapsed ? "center" : "space-between",
+            padding: collapsed ? "8px 0 18px" : "8px 8px 18px 10px",
+            gap: 12,
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
             <div
               style={{
-                width: 32,
-                height: 32,
-                borderRadius: 10,
-                background: D.brand,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
+                width: 38,
+                height: 38,
+                borderRadius: 14,
+                background: "linear-gradient(135deg, #5B8EFF 0%, #4880FF 100%)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 boxShadow: D.sBlue,
-              }}>
-              <MessageCircle size={18} color='#fff' />
+                flexShrink: 0,
+              }}
+            >
+              <MessageCircle size={18} color="#fff" />
             </div>
             {!collapsed && (
-              <div>
+              <div style={{ minWidth: 0 }}>
                 <p
                   style={{
-                    fontSize: 20,
-                    fontWeight: 800,
-                    color: D.t1,
                     margin: 0,
-                    letterSpacing: '-0.3px',
+                    fontSize: 20,
                     lineHeight: 1,
-                  }}>
+                    color: D.textPrimary,
+                    fontWeight: 800,
+                    letterSpacing: "-0.04em",
+                    fontFamily: D.fontDisplay,
+                  }}
+                >
                   JoyServe
+                </p>
+                <p style={{ margin: "6px 0 0", fontSize: 12, color: D.textSecondary }}>
+                  AI commerce operations hub
                 </p>
               </div>
             )}
@@ -123,92 +136,98 @@ export default function AppShell() {
           {!collapsed && (
             <button
               onClick={() => setCollapsed(true)}
+              aria-label="收起侧边栏"
               style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
+                width: 32,
+                height: 32,
+                borderRadius: 12,
+                border: `1px solid ${D.border}`,
+                background: D.bgCard,
                 color: D.t4,
-                display: 'flex',
-                padding: 4,
-                borderRadius: 4,
-                transition: 'background .2s',
-                hover: { background: D.bgSub },
-              }}>
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: D.s0,
+              }}
+            >
               <ChevronLeft size={16} />
             </button>
           )}
         </div>
 
-        {/* Nav items */}
         <nav
           style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 6,
+            paddingTop: 8,
             flex: 1,
-            padding: '12px 16px',
-            overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-          }}>
+            overflowY: "auto",
+          }}
+        >
           {NAV.map((item) => {
             const active = page === item.id;
             return (
               <button
                 key={item.id}
-                onClick={() => setPage(item.id)}
-                title={collapsed ? item.l : ''}
+                onClick={() => {
+                  setPage(item.id);
+                  setNotifOpen(false);
+                }}
+                title={collapsed ? item.l : ""}
                 style={{
-                  width: '100%',
-                  height: 52,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: collapsed ? 0 : 12,
-                  padding: collapsed ? '0' : '0 20px',
-                  justifyContent: collapsed ? 'center' : 'flex-start',
-                  borderRadius: D.radiusPill,
-                  cursor: 'pointer',
-                  background: active ? D.brandPale : 'transparent',
-                  border: 'none',
+                  width: "100%",
+                  height: 48,
+                  padding: collapsed ? 0 : "0 14px",
+                  borderRadius: 16,
+                  border: `1px solid ${active ? D.brandEdge : "transparent"}`,
+                  background: active ? D.brandPale : "transparent",
                   color: active ? D.brand : D.textSecondary,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: collapsed ? "center" : "flex-start",
+                  gap: collapsed ? 0 : 12,
+                  cursor: "pointer",
+                  transition: "all .2s ease",
                   fontSize: 14,
                   fontWeight: active ? 700 : 500,
-                  transition: 'all .2s ease',
-                  fontFamily: 'inherit',
-                  position: 'relative',
-                }}>
-                {active && !collapsed && (
-                  <div
+                  position: "relative",
+                }}
+              >
+                {active && (
+                  <span
                     style={{
-                      position: 'absolute',
-                      left: 0,
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      width: 4,
-                      height: 20,
+                      position: "absolute",
+                      left: 10,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
                       background: D.brand,
-                      borderRadius: '0 4px 4px 0',
-                      display: 'none',
                     }}
                   />
-                )}{' '}
-                {/* Removed side indicator as per clean style, or keep if preferred? Guidelines don't mention side indicator, just "pill shape background". I'll hide it for cleaner look as background is enough */}
-                <item.Icon size={20} style={{ flexShrink: 0, opacity: active ? 1 : 0.8 }} />
-                {!collapsed && <span style={{ flex: 1, textAlign: 'left' }}>{item.l}</span>}
+                )}
+                <item.Icon size={18} style={{ marginLeft: active && !collapsed ? 10 : 0, flexShrink: 0 }} />
+                {!collapsed && <span style={{ flex: 1, textAlign: "left" }}>{item.l}</span>}
                 {!collapsed && item.badge != null && (
                   <span
                     style={{
-                      minWidth: 20,
-                      height: 20,
-                      borderRadius: 10,
-                      background: D.red,
-                      color: '#fff',
+                      minWidth: 22,
+                      height: 22,
+                      padding: "0 7px",
+                      borderRadius: 999,
+                      background: active ? D.bgCard : D.brandPale,
+                      color: D.brand,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
                       fontSize: 11,
                       fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: '0 6px',
-                      boxShadow: '0 2px 5px rgba(220,38,38,0.3)',
-                    }}>
+                      fontFamily: D.fontDisplay,
+                    }}
+                  >
                     {item.badge}
                   </span>
                 )}
@@ -217,64 +236,74 @@ export default function AppShell() {
           })}
         </nav>
 
-        {/* User */}
-        <div style={{ padding: '16px', marginTop: 'auto' }}>
+        <div style={{ paddingTop: 16 }}>
           {collapsed && (
             <button
               onClick={() => setCollapsed(false)}
+              aria-label="展开侧边栏"
               style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'center',
-                padding: '8px 0',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
+                width: "100%",
+                height: 40,
+                borderRadius: 14,
+                border: `1px solid ${D.border}`,
+                background: D.bgCard,
                 color: D.t4,
-                marginBottom: 8,
-              }}>
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                boxShadow: D.s0,
+                marginBottom: 12,
+              }}
+            >
               <ChevronRight size={16} />
             </button>
           )}
+
           <div
             style={{
-              display: 'flex',
-              alignItems: 'center',
+              borderRadius: 18,
+              background: collapsed ? D.bgSub : D.bgPage,
+              border: `1px solid ${D.border}`,
+              padding: collapsed ? "10px 0" : "12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: collapsed ? "center" : "flex-start",
               gap: 12,
-              padding: '12px',
-              borderRadius: 16,
-              background: D.bgSub,
-              transition: 'all .2s',
-            }}>
+            }}
+          >
             <div
               style={{
-                width: 36,
-                height: 36,
-                borderRadius: '50%',
-                background: '#fff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 14,
-                fontWeight: 700,
+                width: 38,
+                height: 38,
+                borderRadius: "50%",
+                background: D.bgCard,
+                border: `1px solid ${D.border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
                 color: D.brand,
-                flexShrink: 0,
+                fontWeight: 800,
+                fontFamily: D.fontDisplay,
                 boxShadow: D.s0,
-              }}>
+                flexShrink: 0,
+              }}
+            >
               管
             </div>
             {!collapsed && (
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: D.t1, margin: 0 }}>超级管理员</p>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ margin: 0, color: D.textPrimary, fontWeight: 700 }}>超级管理员</p>
                 <p
                   style={{
-                    fontSize: 12,
+                    margin: "4px 0 0",
                     color: D.textTertiary,
-                    margin: 0,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}>
+                    fontSize: 12,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   admin@joyserve.ai
                 </p>
               </div>
@@ -283,210 +312,221 @@ export default function AppShell() {
         </div>
       </aside>
 
-      {/* ── Main ── */}
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-          background: D.bgPage,
-        }}>
-        {/* Topbar */}
+      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
         <header
           style={{
-            height: 64,
-            background: 'transparent',
-            display: 'flex',
-            alignItems: 'center',
-            padding: '0 32px',
-            gap: 24,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 20,
+            padding: "22px 28px 0",
             flexShrink: 0,
-          }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              <Search
-                size={16}
-                style={{
-                  position: 'absolute',
-                  left: 12,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  color: D.t4,
-                }}
-              />
-              <input
-                placeholder='全局搜索...'
-                style={{
-                  padding: '10px 16px 10px 36px',
-                  background: '#fff',
-                  border: 'none',
-                  borderRadius: D.radiusInput,
-                  color: D.t2,
-                  fontSize: 13,
-                  outline: 'none',
-                  width: 280,
-                  fontFamily: 'inherit',
-                  boxShadow: D.s0,
-                  transition: 'all .2s',
-                }}
-              />
-            </div>
+          }}
+        >
+          <div style={{ position: "relative", flex: "0 1 360px" }}>
+            <Search
+              size={16}
+              style={{
+                position: "absolute",
+                left: 14,
+                top: "50%",
+                transform: "translateY(-50%)",
+                color: D.t4,
+              }}
+            />
+            <input
+              name="global-search"
+              placeholder="Search"
+              style={{
+                width: "100%",
+                height: 44,
+                padding: "0 16px 0 40px",
+                background: D.bgCard,
+                border: `1px solid ${D.border}`,
+                borderRadius: 16,
+                boxShadow: D.s0,
+                color: D.t2,
+                outline: "none",
+              }}
+            />
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div
               style={{
-                fontSize: 11,
-                color: D.green,
-                background: D.greenPale,
-                padding: '3px 9px',
-                borderRadius: 20,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "0 12px",
+                height: 40,
+                borderRadius: 999,
                 border: `1px solid ${D.greenEdge}`,
-                fontWeight: 500,
-                display: 'flex',
-                alignItems: 'center',
-                gap: 4,
-              }}>
+                background: D.greenPale,
+                color: D.green,
+                fontSize: 12,
+                fontWeight: 700,
+                fontFamily: D.fontDisplay,
+              }}
+            >
               <span
                 style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: '50%',
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
                   background: D.green,
-                  display: 'inline-block',
+                  display: "inline-block",
+                  animation: "pulseDot 1.8s ease infinite",
                 }}
               />
-              实时连接
+              Live
             </div>
-            <div style={{ position: 'relative' }}>
+
+            <div style={{ position: "relative" }}>
               <button
                 onClick={() => setNotifOpen((p) => !p)}
+                aria-label="打开通知"
                 style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: D.radiusBtn,
+                  width: 42,
+                  height: 42,
+                  borderRadius: 16,
                   border: `1px solid ${D.border}`,
                   background: D.bgCard,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: D.t3,
-                  position: 'relative',
-                }}>
-                <Bell size={14} />
+                  color: D.textSecondary,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  boxShadow: D.s0,
+                  position: "relative",
+                }}
+              >
+                <Bell size={16} />
                 <span
                   style={{
-                    position: 'absolute',
-                    top: 7,
-                    right: 7,
-                    width: 6,
-                    height: 6,
-                    borderRadius: '50%',
+                    position: "absolute",
+                    top: 9,
+                    right: 10,
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
                     background: D.red,
                     border: `2px solid ${D.bgCard}`,
                   }}
                 />
               </button>
+
               {notifOpen && (
                 <div
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     right: 0,
-                    top: 'calc(100% + 8px)',
-                    width: 304,
+                    top: "calc(100% + 10px)",
+                    width: 320,
                     background: D.bgCard,
                     border: `1px solid ${D.border}`,
-                    borderRadius: 20,
+                    borderRadius: 22,
                     boxShadow: D.s3,
+                    overflow: "hidden",
                     zIndex: 300,
-                    overflow: 'hidden',
-                  }}>
+                  }}
+                >
                   <div
                     style={{
-                      padding: '12px 16px',
+                      padding: "16px 18px 14px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                       borderBottom: `1px solid ${D.divider}`,
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: D.t1 }}>通知中心</span>
+                    }}
+                  >
+                    <span style={{ color: D.t1, fontWeight: 800, fontFamily: D.fontDisplay }}>通知中心</span>
                     <Btn
-                      v='text'
-                      sz='sm'
+                      v="text"
+                      sz="sm"
                       onClick={() => {
-                        toast.show('已全部标记已读', 'info');
+                        toast.show("已全部标记已读", "info");
                         setNotifOpen(false);
-                      }}>
+                      }}
+                    >
                       全部已读
                     </Btn>
                   </div>
+
                   {[
-                    { text: '4 条紧急客诉待处理', type: 'danger', time: '刚刚' },
-                    { text: '泰语知识库健康度下降至 45%', type: 'warning', time: '10分钟前' },
-                    { text: 'Shopee TH 授权即将到期', type: 'warning', time: '1小时前' },
-                    { text: '本周 AI 解决率提升 3.2%', type: 'success', time: '今天' },
+                    { text: "4 条紧急客诉待处理", type: "danger", time: "刚刚" },
+                    { text: "泰语知识库健康度下降至 45%", type: "warning", time: "10分钟前" },
+                    { text: "Shopee TH 授权即将到期", type: "warning", time: "1小时前" },
+                    { text: "本周 AI 解决率提升 3.2%", type: "success", time: "今天" },
                   ].map((n, i) => (
                     <div
                       key={i}
                       onClick={() => setNotifOpen(false)}
                       style={{
-                        padding: '10px 16px',
-                        borderBottom: `1px solid ${D.divider}`,
-                        display: 'flex',
-                        gap: 10,
-                        alignItems: 'flex-start',
-                        cursor: 'pointer',
-                      }}>
+                        display: "flex",
+                        gap: 12,
+                        padding: "14px 18px",
+                        borderBottom: i === 3 ? "none" : `1px solid ${D.divider}`,
+                        cursor: "pointer",
+                      }}
+                    >
                       <span
                         style={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: '50%',
-                          background:
-                            n.type === 'danger' ? D.red : n.type === 'warning' ? D.amber : D.green,
-                          marginTop: 4,
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: n.type === "danger" ? D.red : n.type === "warning" ? D.amber : D.green,
+                          marginTop: 6,
                           flexShrink: 0,
                         }}
                       />
-                      <div style={{ flex: 1 }}>
-                        <p style={{ fontSize: 12, color: D.t2, margin: '0 0 2px' }}>{n.text}</p>
-                        <p style={{ fontSize: 11, color: D.t4, margin: 0 }}>{n.time}</p>
+                      <div style={{ minWidth: 0 }}>
+                        <p style={{ margin: 0, color: D.t2, lineHeight: 1.5 }}>{n.text}</p>
+                        <p style={{ margin: "4px 0 0", color: D.t4, fontSize: 12 }}>{n.time}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               )}
             </div>
+
             <div
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: '50%',
-                background: D.bgSub,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 11,
-                fontWeight: 700,
-                color: D.t3,
-                cursor: 'pointer',
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "6px 8px 6px 6px",
+                borderRadius: 999,
+                background: D.bgCard,
                 border: `1px solid ${D.border}`,
-              }}>
-              管
+                boxShadow: D.s0,
+              }}
+            >
+              <div
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: "50%",
+                  background: D.brandPale,
+                  color: D.brand,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontFamily: D.fontDisplay,
+                }}
+              >
+                管
+              </div>
+              <div style={{ minWidth: 0 }}>
+                <p style={{ margin: 0, color: D.t1, fontWeight: 700, fontSize: 13 }}>JoyServe Admin</p>
+                <p style={{ margin: "2px 0 0", color: D.t4, fontSize: 11 }}>Operations</p>
+              </div>
             </div>
           </div>
         </header>
 
-        {/* Content */}
-        <main style={{ flex: 1, overflowY: 'auto', padding: page === 'console' ? 0 : 24 }}>
-          {page === 'console' ? (
-            <div style={{ padding: 24, height: '100%' }}>
-              <Active toast={toast} />
-            </div>
-          ) : (
-            <Active toast={toast} />
-          )}
+        <main style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: page === "console" ? "20px 28px 28px" : "24px 28px 28px" }}>
+          <Active toast={toast} />
         </main>
       </div>
 

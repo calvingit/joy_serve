@@ -197,7 +197,7 @@ export default function Knowledge({ toast }) {
           <div style={{display:"flex",gap:7}}>
             <div style={{position:"relative"}}>
               <Search size={12} style={{position:"absolute",left:9,top:"50%",transform:"translateY(-50%)",color:D.t4}}/>
-              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="搜索条目…" style={{padding:"7px 9px 7px 27px",background:D.bgSub,border:`1px solid ${D.border}`,borderRadius:7,color:D.t2,fontSize:12,outline:"none",fontFamily:"inherit",width:196}}/>
+              <input name="knowledge-search" value={search} onChange={e=>setSearch(e.target.value)} placeholder="搜索条目…" style={{padding:"10px 12px 10px 30px",background:D.bgInput,border:`1px solid ${D.border}`,borderRadius:14,color:D.t2,fontSize:12,outline:"none",fontFamily:D.fontBody,width:196,boxShadow:D.s0}}/>
             </div>
             <Btn v="sub" sz="sm"><Filter size={11}/>筛选</Btn>
           </div>
@@ -243,7 +243,7 @@ export default function Knowledge({ toast }) {
           <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
             {["vi","th","id","ms","en","fil"].map(l=>(
               <label key={l} style={{display:"flex",alignItems:"center",gap:5,cursor:"pointer",fontSize:12,color:D.t2}}>
-                <input type="checkbox" defaultChecked style={{accentColor:D.brand}}/>{LANG_FLAG[l]} {{vi:"越南语",th:"泰语",id:"印尼语",ms:"马来语",en:"英语",fil:"菲律宾语"}[l]}
+                <input name={`knowledge-lang-${l}`} type="checkbox" defaultChecked style={{accentColor:D.brand}}/>{LANG_FLAG[l]} {{vi:"越南语",th:"泰语",id:"印尼语",ms:"马来语",en:"英语",fil:"菲律宾语"}[l]}
               </label>
             ))}
           </div>

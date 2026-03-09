@@ -45,6 +45,9 @@ export default function DashboardAiAskPanel({
     return 'file';
   };
   const getActiveSession = () => sessions.find((s) => s.id === activeSessionId) || null;
+  const recentSession = sessions.length
+    ? [...sessions].sort((a, b) => b.updatedAt - a.updatedAt)[0]
+    : null;
   const stopStream = () => {
     if (streamTimerRef.current) {
       clearInterval(streamTimerRef.current);
@@ -150,6 +153,10 @@ export default function DashboardAiAskPanel({
     sendToSession({ text, files: [] });
     setAiQ('');
   };
+  const openHistory = (sessionId = null) => {
+    setActiveSessionId(sessionId || recentSession?.id || null);
+    chatModal.show();
+  };
   const sendComposer = () => {
     const sid = activeSessionId || null;
     if (isStreaming) return;
@@ -193,6 +200,7 @@ export default function DashboardAiAskPanel({
   );
   const activeSession = getActiveSession();
   const sortedSessions = [...sessions].sort((a, b) => b.updatedAt - a.updatedAt);
+  const quickPrompts = slashCommands.slice(0, 3);
   useEffect(() => {
     if (!chatModal.open) return;
     msgEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -201,11 +209,11 @@ export default function DashboardAiAskPanel({
 
   return (
     <>
-      <div style={{ width: 'calc(100% - 400px)', margin: '0 200px' }}>
+      <div style={{ width: '100%', minWidth: 620, margin: '0 auto' }}>
         <div
           style={{
             border: `1.5px solid ${aiLoad ? D.brand : D.border}`,
-            borderRadius: 16,
+            borderRadius: 20,
             overflow: 'hidden',
             transition: 'border-color .2s',
             background: D.bgCard,
@@ -213,7 +221,7 @@ export default function DashboardAiAskPanel({
           }}>
           <div
             style={{
-              padding: '18px 28px',
+              padding: '14px 22px',
               borderBottom: `1px solid ${D.divider}`,
               display: 'flex',
               justifyContent: 'space-between',
@@ -224,16 +232,16 @@ export default function DashboardAiAskPanel({
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <MessageSquare size={15} color={D.brand} />
               <div>
-                <div style={{ fontSize: 16, color: D.t2, fontWeight: 700 }}>AI 运营提问</div>
-                <div style={{ fontSize: 12, color: D.t4, marginTop: 2 }}>
+                <div style={{ fontSize: 15, color: D.t2, fontWeight: 700, fontFamily: D.fontDisplay }}>AI 运营提问</div>
+                <div style={{ fontSize: 12, color: D.t4, marginTop: 1 }}>
                   输入问题后直接进入会话窗口查看分析结果
                 </div>
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Btn v='sub' sz='md' onClick={() => chatModal.show()}>
+              <Btn v='sub' sz='md' onClick={() => openHistory()}>
                 <Bot size={12} />
-                打开会话
+                历史会话
               </Btn>
             </div>
           </div>
@@ -241,10 +249,11 @@ export default function DashboardAiAskPanel({
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 18,
-              padding: '28px 28px 22px',
+              gap: 10,
+              padding: '16px 22px 16px',
             }}>
             <textarea
+              name='dashboard-ai-query'
               value={aiQuery}
               onChange={(e) => setAiQ(e.target.value)}
               onKeyDown={(e) => {
@@ -259,15 +268,15 @@ export default function DashboardAiAskPanel({
                 width: '100%',
                 border: 'none',
                 padding: 0,
-                fontSize: 22,
+                fontSize: 16,
                 color: D.t2,
                 resize: 'none',
                 outline: 'none',
-                lineHeight: 1.55,
+                lineHeight: 1.45,
                 background: 'transparent',
                 boxSizing: 'border-box',
-                fontFamily: 'inherit',
-                minHeight: 72,
+                fontFamily: D.fontDisplay,
+                minHeight: 34,
               }}
             />
             <div
@@ -278,10 +287,10 @@ export default function DashboardAiAskPanel({
                 gap: 20,
                 flexWrap: 'wrap',
               }}>
-              <div style={{ fontSize: 12, color: D.t4 }}>Enter 发送，Shift + Enter 换行</div>
+              <div style={{ fontSize: 12, color: D.t4 }}>Enter 发送</div>
               <Btn
                 v='primary'
-                sz='lg'
+                sz='md'
                 onClick={() => askAI()}
                 disabled={!aiQuery.trim() || isStreaming}>
                 {aiLoad ? (
@@ -297,6 +306,78 @@ export default function DashboardAiAskPanel({
                 )}
               </Btn>
             </div>
+            <div
+              style={{
+                borderTop: `1px solid ${D.divider}`,
+                paddingTop: 12,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: 12,
+                flexWrap: 'wrap',
+              }}>
+              {recentSession ? (
+                <>
+                  <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <div style={{ fontSize: 11, color: D.t4, fontWeight: 700, letterSpacing: '0.04em' }}>
+                      最近会话
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 13,
+                        color: D.t2,
+                        fontWeight: 600,
+                        maxWidth: 520,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}>
+                      {recentSession.title}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: D.t4,
+                        maxWidth: 620,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}>
+                      {recentSession.lastPreview}
+                    </div>
+                  </div>
+                  <Btn v='ghost' sz='sm' onClick={() => openHistory(recentSession.id)}>
+                    继续会话
+                  </Btn>
+                </>
+              ) : (
+                <>
+                  <div style={{ fontSize: 11, color: D.t4, fontWeight: 700, letterSpacing: '0.04em' }}>
+                    快捷问题
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                    {quickPrompts.map((item) => (
+                      <button
+                        key={item.cmd}
+                        onClick={() => askAI(item.prompt)}
+                        style={{
+                          border: `1px solid ${D.border}`,
+                          background: D.bgSub,
+                          color: D.t3,
+                          borderRadius: 999,
+                          padding: '7px 12px',
+                          fontSize: 12,
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          fontFamily: D.fontBody,
+                        }}>
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -307,8 +388,8 @@ export default function DashboardAiAskPanel({
           chatModal.hide();
         }}
         title={modalTitle}
-        width={960}>
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: 14, minHeight: 520 }}>
+        width={1120}>
+        <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 16, minHeight: 620 }}>
           <div
             style={{
               border: `1px solid ${D.border}`,
@@ -419,52 +500,97 @@ export default function DashboardAiAskPanel({
                 flexDirection: 'column',
                 gap: 10,
               }}>
-              {(activeSession?.messages || []).map((m) => (
-                <div
-                  key={m.id}
-                  style={{
-                    alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
-                    maxWidth: '82%',
-                    border: `1px solid ${m.role === 'user' ? D.brandEdge : D.border}`,
-                    background: m.role === 'user' ? D.brandPale : D.bgSub,
-                    borderRadius: 10,
-                    padding: '10px 12px',
-                  }}>
+              {activeSession?.messages?.length ? (
+                (activeSession.messages || []).map((m) => (
                   <div
-                    style={{ fontSize: 12, color: D.t2, lineHeight: 1.72, whiteSpace: 'pre-line' }}>
-                    {m.text || '...'}
-                  </div>
-                  {!!m.attachments?.length && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
-                      {m.attachments.map((f) => (
-                        <span
-                          key={f.id}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 4,
-                            fontSize: 10,
-                            color: D.t3,
-                            border: `1px solid ${D.border}`,
-                            borderRadius: 99,
-                            padding: '2px 8px',
-                            background: D.bgCard,
-                          }}>
-                          {f.kind === 'image' ? (
-                            <Image size={11} />
-                          ) : f.kind === 'video' ? (
-                            <Play size={11} />
-                          ) : (
-                            <Paperclip size={11} />
-                          )}
-                          {f.name}
-                        </span>
-                      ))}
+                    key={m.id}
+                    style={{
+                      alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
+                      maxWidth: '82%',
+                      border: `1px solid ${m.role === 'user' ? D.brandEdge : D.border}`,
+                      background: m.role === 'user' ? D.brandPale : D.bgSub,
+                      borderRadius: 10,
+                      padding: '10px 12px',
+                    }}>
+                    <div
+                      style={{ fontSize: 12, color: D.t2, lineHeight: 1.72, whiteSpace: 'pre-line' }}>
+                      {m.text || '...'}
                     </div>
-                  )}
-                  <div style={{ marginTop: 6, fontSize: 10, color: D.t5 }}>{m.time}</div>
+                    {!!m.attachments?.length && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
+                        {m.attachments.map((f) => (
+                          <span
+                            key={f.id}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: 4,
+                              fontSize: 10,
+                              color: D.t3,
+                              border: `1px solid ${D.border}`,
+                              borderRadius: 99,
+                              padding: '2px 8px',
+                              background: D.bgCard,
+                            }}>
+                            {f.kind === 'image' ? (
+                              <Image size={11} />
+                            ) : f.kind === 'video' ? (
+                              <Play size={11} />
+                            ) : (
+                              <Paperclip size={11} />
+                            )}
+                            {f.name}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div style={{ marginTop: 6, fontSize: 10, color: D.t5 }}>{m.time}</div>
+                  </div>
+                ))
+              ) : (
+                <div
+                  style={{
+                    flex: 1,
+                    minHeight: 280,
+                    border: `1px dashed ${D.border}`,
+                    borderRadius: 16,
+                    background: D.bgSub,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    gap: 18,
+                    padding: '24px 28px',
+                  }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 560 }}>
+                    <div style={{ fontSize: 18, color: D.t2, fontWeight: 700, fontFamily: D.fontDisplay }}>
+                      从一个运营问题开始
+                    </div>
+                    <div style={{ fontSize: 13, color: D.t4, lineHeight: 1.7 }}>
+                      这里保留完整会话能力。你可以直接输入问题，或使用常用指令快速生成摘要、风险扫描和行动建议。
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    {quickPrompts.map((item) => (
+                      <button
+                        key={item.cmd}
+                        onClick={() => applySlash(item)}
+                        style={{
+                          border: `1px solid ${D.border}`,
+                          background: D.bgCard,
+                          borderRadius: 10,
+                          padding: '10px 12px',
+                          cursor: 'pointer',
+                          textAlign: 'left',
+                        }}>
+                        <div style={{ fontSize: 12, color: D.t2, fontWeight: 700 }}>
+                          {item.cmd} · {item.label}
+                        </div>
+                        <div style={{ fontSize: 11, color: D.t4, marginTop: 3 }}>{item.prompt}</div>
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
               <div ref={msgEndRef} />
             </div>
             <div style={{ borderTop: `1px solid ${D.divider}`, padding: 10, position: 'relative' }}>
@@ -508,6 +634,7 @@ export default function DashboardAiAskPanel({
                 </div>
               )}
               <textarea
+                name='dashboard-ai-chat-composer'
                 value={composerText}
                 onChange={(e) => onComposerChange(e.target.value)}
                 onKeyDown={(e) => {
@@ -546,7 +673,7 @@ export default function DashboardAiAskPanel({
                   outline: 'none',
                   lineHeight: 1.7,
                   boxSizing: 'border-box',
-                  fontFamily: 'inherit',
+                  fontFamily: D.fontBody,
                 }}
               />
               {slashOpen && !!slashList.length && (
@@ -642,6 +769,7 @@ export default function DashboardAiAskPanel({
                   </button>
                   <input
                     ref={imgInputRef}
+                    name='dashboard-ai-upload-image'
                     type='file'
                     accept='image/*'
                     multiple
@@ -650,6 +778,7 @@ export default function DashboardAiAskPanel({
                   />
                   <input
                     ref={videoInputRef}
+                    name='dashboard-ai-upload-video'
                     type='file'
                     accept='video/*'
                     multiple
@@ -658,6 +787,7 @@ export default function DashboardAiAskPanel({
                   />
                   <input
                     ref={fileInputRef}
+                    name='dashboard-ai-upload-file'
                     type='file'
                     multiple
                     onChange={(e) => pickFiles(e.target.files)}

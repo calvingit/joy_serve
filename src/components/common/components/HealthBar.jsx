@@ -5,10 +5,10 @@ export default function HealthBar({ v }) {
   const color = v>=80 ? D.brand : v>=60 ? D.amber : D.red;
   return (
     <div style={{display:"flex",alignItems:"center",gap:8}}>
-      <div style={{flex:1,height:5,background:D.bgSub,borderRadius:3,overflow:"hidden"}}>
-        <div style={{width:`${v}%`,height:"100%",background:color,borderRadius:3,transition:"width .5s ease"}}/>
+      <div style={{flex:1,height:8,background:D.bgPanel,borderRadius:999,overflow:"hidden"}}>
+        <div style={{width:`${v}%`,height:"100%",background:color,borderRadius:999,transition:"width .5s ease"}}/>
       </div>
-      <span style={{fontSize:12,color,fontWeight:600,minWidth:30,textAlign:"right"}}>{v}%</span>
+      <span style={{fontSize:12,color,fontWeight:700,minWidth:32,textAlign:"right",fontFamily:D.fontDisplay}}>{v}%</span>
     </div>
   );
 }

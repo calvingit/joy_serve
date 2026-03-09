@@ -186,7 +186,7 @@ export default function AIAgents({ toast }) {
             <div style={{display:"flex",gap:16}}>
               {["亲切活泼","专业礼貌","简洁高效"].map(s=>(
                 <label key={s} style={{display:"flex",alignItems:"center",gap:5,cursor:"pointer",fontSize:13,color:D.t2}}>
-                  <input type="radio" checked={obData.style===s} onChange={()=>setObData(p=>({...p,style:s}))} style={{accentColor:D.brand}}/>{s}
+                  <input name="agent-reply-style" type="radio" checked={obData.style===s} onChange={()=>setObData(p=>({...p,style:s}))} style={{accentColor:D.brand}}/>{s}
                 </label>
               ))}
             </div>
@@ -241,17 +241,17 @@ export default function AIAgents({ toast }) {
       {tab==="agents"&&(
         <>
           {/* Manager Banner */}
-          <div style={{background:D.brand,borderRadius:10,padding:"16px 22px",display:"flex",justifyContent:"space-between",alignItems:"center",boxShadow:D.sBlue,marginBottom:4}}>
+          <div style={{background:"linear-gradient(135deg, rgba(72,128,255,0.18) 0%, rgba(72,128,255,0.08) 100%)",border:`1px solid ${D.brandEdge}`,borderRadius:20,padding:"18px 22px",display:"flex",justifyContent:"space-between",alignItems:"center",boxShadow:D.s1,marginBottom:4}}>
             <div style={{display:"flex",alignItems:"center",gap:14}}>
-              <div style={{width:42,height:42,borderRadius:10,background:"rgba(255,255,255,0.15)",display:"flex",alignItems:"center",justifyContent:"center"}}><Shield size={20} color="#fff"/></div>
+              <div style={{width:44,height:44,borderRadius:14,background:D.bgCard,display:"flex",alignItems:"center",justifyContent:"center",border:`1px solid ${D.brandEdge}`}}><Shield size={20} color={D.brand}/></div>
               <div>
-                <p style={{fontSize:14,fontWeight:600,color:"#fff",margin:0}}>客服主管 Agent（Manager Layer）</p>
-                <p style={{fontSize:12,color:"rgba(255,255,255,0.72)",margin:"3px 0 0"}}>统一协调子 Agent · 退款审批 $100 · 情绪熔断 40分 · 智能软着陆转人工</p>
+                <p style={{fontSize:15,fontWeight:700,color:D.t1,margin:0,fontFamily:D.fontDisplay}}>客服主管 Agent（Manager Layer）</p>
+                <p style={{fontSize:12,color:D.t3,margin:"4px 0 0"}}>统一协调子 Agent · 退款审批 $100 · 情绪熔断 40分 · 智能软着陆转人工</p>
               </div>
             </div>
             <div style={{display:"flex",gap:8,alignItems:"center"}}>
-              <span style={{fontSize:11,background:"rgba(255,255,255,0.18)",border:"1px solid rgba(255,255,255,0.3)",borderRadius:6,padding:"3px 10px",color:"#fff",display:"flex",alignItems:"center",gap:4}}><Activity size={10}/>运行中</span>
-              <Btn style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.35)",color:"#fff"}} sz="sm" onClick={managerModal.show}><Edit3 size={11}/>配置</Btn>
+              <span style={{fontSize:11,background:D.bgCard,border:`1px solid ${D.greenEdge}`,borderRadius:999,padding:"5px 10px",color:D.green,display:"flex",alignItems:"center",gap:4,fontWeight:700,fontFamily:D.fontDisplay}}><Activity size={10}/>运行中</span>
+              <Btn v="ghost" sz="sm" onClick={managerModal.show}><Edit3 size={11}/>配置</Btn>
             </div>
           </div>
 
@@ -347,7 +347,7 @@ export default function AIAgents({ toast }) {
             <div style={{padding:"12px 16px",borderBottom:`1px solid ${D.divider}`,display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
               <div style={{display:"flex",gap:8,alignItems:"center"}}>
                 <span style={{fontSize:13,fontWeight:600,color:D.t1}}>对话预览</span>
-                <select style={{padding:"4px 8px",border:`1px solid ${D.border}`,borderRadius:6,fontSize:12,color:D.t2,background:D.bgCard,outline:"none",fontFamily:"inherit"}}>
+                <select name="agent-playground-selector" style={{padding:"8px 10px",border:`1px solid ${D.border}`,borderRadius:12,fontSize:12,color:D.t2,background:D.bgInput,outline:"none",fontFamily:D.fontBody,boxShadow:D.s0}}>
                   <option>接待专员</option><option>售后主管</option>
                 </select>
               </div>
@@ -364,7 +364,7 @@ export default function AIAgents({ toast }) {
             </div>
             <div style={{padding:"10px 14px",borderTop:`1px solid ${D.divider}`,flexShrink:0,background:D.bgCard}}>
               <div style={{display:"flex",gap:6}}>
-                <input value={playInput} onChange={e=>setPlayInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")doPlay();}} placeholder="模拟买家消息，回车发送…" style={{flex:1,padding:"8px 11px",background:D.bgSub,border:`1px solid ${D.border}`,borderRadius:7,color:D.t2,fontSize:12,outline:"none",fontFamily:"inherit"}}/>
+                <input name="agent-playground-input" value={playInput} onChange={e=>setPlayInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")doPlay();}} placeholder="模拟买家消息，回车发送…" style={{flex:1,padding:"10px 12px",background:D.bgInput,border:`1px solid ${D.border}`,borderRadius:14,color:D.t2,fontSize:12,outline:"none",fontFamily:D.fontBody,boxShadow:D.s0}}/>
                 <Btn v="primary" sz="sm" onClick={doPlay}><Send size={12}/></Btn>
                 <Btn v="sub" sz="sm" onClick={()=>setPlayMsgs([{role:"ai",text:"您好！我是 DuoKe 客服助手，请问有什么可以帮您？"}])}><RotateCcw size={12}/></Btn>
               </div>
@@ -443,7 +443,7 @@ export default function AIAgents({ toast }) {
           <div style={{display:"flex",flexDirection:"column",gap:5}}>
             {DATA.skills.filter(s=>s.installed).map(s=>(
               <label key={s.id} style={{display:"flex",alignItems:"center",gap:8,cursor:"pointer",fontSize:13,color:D.t2,padding:"7px 10px",background:D.bgSub,borderRadius:7}}>
-                <input type="checkbox" defaultChecked style={{accentColor:D.brand}}/>{s.icon} {s.name}
+                <input name={`installed-skill-${s.id}`} type="checkbox" defaultChecked style={{accentColor:D.brand}}/>{s.icon} {s.name}
                 <span style={{marginLeft:"auto",fontSize:11,color:D.t4}}>{s.cat}</span>
               </label>
             ))}

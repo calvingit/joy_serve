@@ -134,7 +134,12 @@ export default function Dashboard({ toast }) {
   const shown = alertTab === 'open' ? openAlerts : doneAlerts;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <PHeader
+        title='Dashboard'
+        sub='AI Agent 运营总览 · 实时告警 · 会话转化趋势'
+      />
+
       <DashboardAiAskPanel toast={toast} />
 
       {/* KPI Row 1 */}
@@ -148,44 +153,46 @@ export default function Dashboard({ toast }) {
           }>
           AI Agent 核心指标
         </SLabel>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
           {KPI.map((k, i) => (
-            <Card key={i} pad={18}>
+            <Card key={i} pad={20}>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: 14,
+                  marginBottom: 18,
                 }}>
-                <span style={{ fontSize: 12, color: D.t3, fontWeight: 500, lineHeight: 1.4 }}>
+                <span style={{ fontSize: 12, color: D.t3, fontWeight: 600, lineHeight: 1.5 }}>
                   {k.l}
                 </span>
                 <div
                   style={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: 8,
+                    width: 40,
+                    height: 40,
+                    borderRadius: 14,
                     background: i === 0 ? D.brandPale : D.bgSub,
+                    border: `1px solid ${i === 0 ? D.brandEdge : D.border}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <k.Icon size={15} color={i === 0 ? D.brand : D.t3} />
+                  <k.Icon size={16} color={i === 0 ? D.brand : D.t3} />
                 </div>
               </div>
               <div
                 style={{
-                  fontSize: 28,
-                  fontWeight: 700,
+                  fontSize: 32,
+                  fontWeight: 800,
                   color: D.t1,
                   lineHeight: 1,
                   marginBottom: 8,
-                  letterSpacing: '-0.6px',
+                  letterSpacing: '-0.05em',
+                  fontFamily: D.fontDisplay,
                 }}>
                 {k.v}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 3, fontSize: 12 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12 }}>
                 {k.up ? (
                   <ArrowUpRight size={12} color={D.green} />
                 ) : (
@@ -202,38 +209,40 @@ export default function Dashboard({ toast }) {
       {/* KPI Row 2 */}
       <div>
         <SLabel>人工客服核心指标</SLabel>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}>
           {KPI2.map((k, i) => (
-            <Card key={i} pad={18}>
+            <Card key={i} pad={20}>
               <div
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'flex-start',
-                  marginBottom: 14,
+                  marginBottom: 18,
                 }}>
-                <span style={{ fontSize: 12, color: D.t3, fontWeight: 500 }}>{k.l}</span>
+                <span style={{ fontSize: 12, color: D.t3, fontWeight: 600 }}>{k.l}</span>
                 <div
                   style={{
-                    width: 34,
-                    height: 34,
-                    borderRadius: 8,
+                    width: 40,
+                    height: 40,
+                    borderRadius: 14,
                     background: D.bgSub,
+                    border: `1px solid ${D.border}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <k.Icon size={15} color={D.t4} />
+                  <k.Icon size={16} color={D.t4} />
                 </div>
               </div>
               <div
                 style={{
-                  fontSize: 28,
-                  fontWeight: 700,
+                  fontSize: 32,
+                  fontWeight: 800,
                   color: D.t1,
                   lineHeight: 1,
                   marginBottom: 8,
-                  letterSpacing: '-0.6px',
+                  letterSpacing: '-0.05em',
+                  fontFamily: D.fontDisplay,
                 }}>
                 {k.v}
               </div>

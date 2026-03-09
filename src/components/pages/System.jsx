@@ -217,7 +217,7 @@ export default function System({ toast }) {
             </PHeader>
             <Card pad={0}>
               <div style={{padding:"11px 20px",borderBottom:`1px solid ${D.border}`}}>
-                <div style={{position:"relative",display:"inline-block"}}><Search size={12} style={{position:"absolute",left:9,top:"50%",transform:"translateY(-50%)",color:D.t4}}/><input placeholder="搜索…" style={{padding:"7px 9px 7px 27px",background:D.bgSub,border:`1px solid ${D.border}`,borderRadius:7,fontSize:12,outline:"none",fontFamily:"inherit",color:D.t2}}/></div>
+                <div style={{position:"relative",display:"inline-block"}}><Search size={12} style={{position:"absolute",left:11,top:"50%",transform:"translateY(-50%)",color:D.t4}}/><input name="audit-search" placeholder="搜索…" style={{padding:"10px 12px 10px 31px",background:D.bgInput,border:`1px solid ${D.border}`,borderRadius:14,fontSize:12,outline:"none",fontFamily:D.fontBody,color:D.t2,boxShadow:D.s0}}/></div>
               </div>
               <table style={{width:"100%",borderCollapse:"collapse"}}>
                 <thead><tr style={{background:D.bgSub}}>{["操作人","操作","对象","IP","时间","级别"].map(h=><th key={h} style={{padding:"9px 20px",textAlign:"left",fontSize:11,color:D.t4,fontWeight:600}}>{h}</th>)}</tr></thead>

@@ -36,4 +36,16 @@ describe("Marketing page", () => {
       expect(toast.show).toHaveBeenCalledWith("已生成并发送 AI 建议回复", "success");
     });
   });
+
+  it("顶部 KPI 卡使用统一图标系统而不是 emoji", async () => {
+    render(<Marketing toast={toast} />);
+
+    expect(await screen.findByText("主动关怀时间线")).toBeInTheDocument();
+    expect(screen.queryByText("🎯")).not.toBeInTheDocument();
+    expect(screen.queryByText("🎁")).not.toBeInTheDocument();
+    expect(screen.queryByText("⭐")).not.toBeInTheDocument();
+    expect(screen.getByText("主动触达规则")).toBeInTheDocument();
+    expect(screen.getByText("活跃优惠券")).toBeInTheDocument();
+    expect(screen.getByText("待处理评价")).toBeInTheDocument();
+  });
 });

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Megaphone, RefreshCw, Sparkles } from 'lucide-react';
+import { Megaphone, MessageSquareHeart, RefreshCw, Sparkles, TicketPercent, WandSparkles } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { D } from '../../constants/data';
 import {
@@ -129,21 +129,21 @@ export default function Marketing({ toast }) {
 
   const kpis = [
     {
-      icon: '🎯',
+      Icon: WandSparkles,
       title: '主动触达规则',
       value: dashboard.summary.activeRules,
       chipType: 'brand',
       chipText: `${dashboard.summary.autoReachRate}% 覆盖率`,
     },
     {
-      icon: '🎁',
+      Icon: TicketPercent,
       title: '活跃优惠券',
       value: dashboard.summary.liveCoupons,
       chipType: 'success',
       chipText: `${dashboard.summary.couponUseRate}% 核销率`,
     },
     {
-      icon: '⭐',
+      Icon: MessageSquareHeart,
       title: '待处理评价',
       value: dashboard.summary.pendingReviews,
       chipType: 'warning',
@@ -167,7 +167,23 @@ export default function Marketing({ toast }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14 }}>
         {kpis.map((item) => (
           <Card key={item.title} pad={20} style={{ cursor: 'pointer' }}>
-            <div style={{ fontSize: 26, marginBottom: 12 }}>{item.icon}</div>
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 14,
+                marginBottom: 16,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: item.chipType === 'brand' ? D.brandPale : item.chipType === 'success' ? D.greenPale : D.amberPale,
+                border: `1px solid ${item.chipType === 'brand' ? D.brandEdge : item.chipType === 'success' ? D.greenEdge : D.amberEdge}`,
+              }}>
+              <item.Icon
+                size={20}
+                color={item.chipType === 'brand' ? D.brand : item.chipType === 'success' ? D.green : D.amber}
+              />
+            </div>
             <div
               style={{
                 fontSize: 26,
@@ -368,6 +384,7 @@ export default function Marketing({ toast }) {
                   <td style={{ padding: '12px 18px' }}>
                     <input
                       type='checkbox'
+                      name={`review-${review.id}`}
                       checked={selectedReviews.includes(review.id)}
                       onChange={(e) => {
                         if (e.target.checked) setSelectedReviews((prev) => [...prev, review.id]);
